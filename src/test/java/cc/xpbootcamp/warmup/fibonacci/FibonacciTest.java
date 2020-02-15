@@ -22,4 +22,10 @@ public class FibonacciTest {
         Fibonacci fibonacci = new Fibonacci();
         assertEquals(2L, fibonacci.get(3));
     }
+
+    @Test
+    void should_return_3_when_calculate_given_position_is_4() {
+        Fibonacci fibonacci = new Fibonacci();
+        assertEquals(3L, fibonacci.get(4));
+    }
 }
