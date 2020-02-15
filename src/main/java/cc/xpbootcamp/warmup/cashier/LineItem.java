@@ -24,11 +24,15 @@ public class LineItem {
 		return qty;
 	}
 
-    double totalAmount() {
+    double getTotalAmountExcludeTax() {
         return price * qty;
     }
 
     public double getTax() {
-		return this.totalAmount() * 0.10;
+		return this.getTotalAmountExcludeTax() * 0.10;
+	}
+
+	public double getTotalAmountIncludeTax() {
+		return this.getTotalAmountExcludeTax() + this.getTax();
 	}
 }
