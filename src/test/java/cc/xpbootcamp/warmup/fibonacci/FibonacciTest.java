@@ -28,4 +28,10 @@ public class FibonacciTest {
         Fibonacci fibonacci = new Fibonacci();
         assertEquals(3L, fibonacci.get(4));
     }
+
+    @Test
+    void should_return_12586269025_when_calculate_given_position_is_50() {
+        Fibonacci fibonacci = new Fibonacci();
+        assertEquals(12586269025L, fibonacci.get(50));
+    }
 }
