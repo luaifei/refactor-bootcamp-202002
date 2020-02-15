@@ -1,5 +1,7 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.util.stream.Collectors;
+
 /**
  * OrderReceipt prints the details of order including customer name, address, description, quantity,
  * price and amount. It also calculates the sales tax @ 10% and prints as part
@@ -33,18 +35,16 @@ public class OrderReceipt {
     }
 
     private String printItems() {
-        StringBuilder items = new StringBuilder();
-        for (LineItem lineItem : order.getLineItems()) {
-            items.append(lineItem.getDescription());
-            items.append('\t');
-            items.append(lineItem.getPrice());
-            items.append('\t');
-            items.append(lineItem.getQuantity());
-            items.append('\t');
-            items.append(lineItem.getTotalAmountExcludeTax());
-            items.append('\n');
-        }
-        return items.toString();
+        return order.getLineItems().stream()
+                .map(this::printLineItem)
+                .collect(Collectors.joining());
+    }
+
+    private String printLineItem(LineItem item) {
+        return item.getDescription() + "\t" +
+                item.getPrice() + "\t" +
+                item.getQuantity() + "\t" +
+                item.getTotalAmountExcludeTax() + "\n";
     }
 
     private String printTotalSalesTax() {
