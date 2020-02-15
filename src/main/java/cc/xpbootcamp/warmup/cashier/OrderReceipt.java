@@ -15,42 +15,49 @@ public class OrderReceipt {
     }
 
     public String printReceipt() {
-        StringBuilder output = new StringBuilder();
 
         // print headers
-        output.append(printHeader());
-
-        // prints lineItems
-        double totSalesTx = 0d;
-        double tot = 0d;
-        for (LineItem lineItem : order.getLineItems()) {
-            output.append(lineItem.getDescription());
-            output.append('\t');
-            output.append(lineItem.getPrice());
-            output.append('\t');
-            output.append(lineItem.getQuantity());
-            output.append('\t');
-            output.append(lineItem.getTotalAmountExcludeTax());
-            output.append('\n');
-
-            // calculate sales tax @ rate of 10%
-            totSalesTx += lineItem.getTax();
-
-            // calculate total amount of lineItem = price * quantity + 10 % sales tax
-            tot += lineItem.getTotalAmountIncludeTax();
-        }
-
-        // prints the state tax
-        output.append("Sales Tax").append('\t').append(totSalesTx);
-
-        // print total amount
-        output.append("Total Amount").append('\t').append(tot);
-        return output.toString();
+        return printHeader() +
+                // prints lineItems
+                printItems() +
+                // prints the state tax
+                printTotalSalesTax() +
+                // print total amount
+                printTotalAmount();
     }
 
     private String printHeader() {
         return "======Printing Orders======\n" +
                 order.getCustomerName() +
                 order.getCustomerAddress();
+    }
+
+    private String printItems() {
+        StringBuilder items = new StringBuilder();
+        for (LineItem lineItem : order.getLineItems()) {
+            items.append(lineItem.getDescription());
+            items.append('\t');
+            items.append(lineItem.getPrice());
+            items.append('\t');
+            items.append(lineItem.getQuantity());
+            items.append('\t');
+            items.append(lineItem.getTotalAmountExcludeTax());
+            items.append('\n');
+        }
+        return items.toString();
+    }
+
+    private String printTotalSalesTax() {
+        double totalSalesTax = this.order.getLineItems().stream()
+                .mapToDouble(LineItem::getTax)
+                .sum();
+        return "Sales Tax\t" + totalSalesTax;
+    }
+
+    private String printTotalAmount() {
+        double totalAmount = this.order.getLineItems().stream()
+                .mapToDouble(LineItem::getTotalAmountIncludeTax)
+                .sum();
+        return "Total Amount\t" + totalAmount;
     }
 }
