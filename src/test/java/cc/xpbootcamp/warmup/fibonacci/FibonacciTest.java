@@ -16,4 +16,10 @@ public class FibonacciTest {
         Fibonacci fibonacci = new Fibonacci();
         assertEquals(1L, fibonacci.get(2));
     }
+
+    @Test
+    void should_return_2_when_calculate_given_position_is_3() {
+        Fibonacci fibonacci = new Fibonacci();
+        assertEquals(2L, fibonacci.get(3));
+    }
 }
