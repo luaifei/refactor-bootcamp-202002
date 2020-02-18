@@ -10,15 +10,13 @@ import static org.hamcrest.Matchers.containsString;
 
 class OrderReceiptTest {
     @Test
-    void shouldPrintCustomerInformationOnOrder() {
-        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<LineItem>());
+    void should_print_header_with_slogan() {
+        Order order = new Order(null, null, new ArrayList<>());
         OrderReceipt receipt = new OrderReceipt(order);
 
         String output = receipt.printReceipt();
 
-
-        assertThat(output, containsString("Mr X"));
-        assertThat(output, containsString("Chicago, 60601"));
+        assertThat(output, containsString("===== 老王超市，值得信赖 ======"));
     }
 
     @Test
