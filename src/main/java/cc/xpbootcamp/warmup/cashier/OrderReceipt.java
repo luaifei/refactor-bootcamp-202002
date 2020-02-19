@@ -35,14 +35,14 @@ public class OrderReceipt {
     }
 
     private String printHeader() {
-        return "===== 老王超市，值得信赖 ======" + System.lineSeparator();
+        return "===== 老王超市，值得信赖 ======" + insertLineSeparator(2);
     }
 
     private String printDateAndDayOfWeek() {
         LocalDate createdAt = order.getCreatedAt();
         String dateStr = createdAt.format(DateTimeFormatter.ofPattern("yyyy年M月dd日"));
         String dayOfWeek = createdAt.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.CHINA);
-        return dateStr + "，" + dayOfWeek + System.lineSeparator();
+        return dateStr + "，" + dayOfWeek + insertLineSeparator(2);
     }
 
     private String printItems() {
@@ -58,16 +58,16 @@ public class OrderReceipt {
     }
 
     private String printSeparateLine() {
-        return System.lineSeparator() +
+        return insertLineSeparator(1) +
                 "-----------------------------------" +
-                System.lineSeparator();
+                insertLineSeparator(1);
     }
 
     private String printTotalSalesTax() {
         double totalSalesTax = this.order.getLineItems().stream()
                 .mapToDouble(LineItem::getTax)
                 .sum();
-        return String.format("税额:   %.2f", totalSalesTax);
+        return String.format("税额:   %.2f", totalSalesTax) + insertLineSeparator(1);
     }
 
     private String printDiscount() {
@@ -81,7 +81,7 @@ public class OrderReceipt {
                 .sum();
 
         return String.format("折扣：%.2f", round2Scale(totalAmount * discountRate)) +
-                System.lineSeparator();
+                insertLineSeparator(1);
     }
 
     private String printTotalAmount() {
@@ -94,11 +94,16 @@ public class OrderReceipt {
             discount = totalAmount * discountRate;
         }
 
-        return String.format("总价:   %.2f", round2Scale(totalAmount - discount));
+        return String.format("总价:   %.2f", round2Scale(totalAmount - discount)) +
+                insertLineSeparator(1);
     }
 
     private double round2Scale(double number) {
         return (double) (Math.round(number * 100)) / 100;
+    }
+
+    private String insertLineSeparator(int times) {
+        return String.join("", Collections.nCopies(times, System.lineSeparator()));
     }
 
 }

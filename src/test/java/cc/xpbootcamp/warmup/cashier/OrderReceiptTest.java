@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 
 class OrderReceiptTest {
     @Test
@@ -120,5 +119,46 @@ class OrderReceiptTest {
 
         String output = receipt.printReceipt();
         assertThat(output, containsString("总价:   58.30"));
+    }
+
+    @Test
+    void should_print_receipt_with_except_formatter_when_order_create_date_is_wednesday() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.50, 2));
+            add(new LineItem("小白菜", 10.00, 1));
+        }};
+        LocalDate createdAt = LocalDate.of(2020, 2, 19);
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+
+        String output = receipt.printReceipt();
+        String separator = System.lineSeparator();
+        assertThat(output, equalTo("===== 老王超市，值得信赖 ======" + separator + separator +
+                "2020年2月19日，星期三" + separator + separator+
+                "巧克力, 21.50 x 2, 43.00" + separator +
+                "小白菜, 10.00 x 1, 10.00" + separator +
+                "-----------------------------------" + separator +
+                "税额:   5.30" + separator +
+                "折扣：1.17" + separator +
+                "总价:   57.13" + separator));
+    }
+
+    @Test
+    void should_print_receipt_with_except_formatter_when_order_create_date_is_not_wednesday() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.50, 2));
+            add(new LineItem("小白菜", 10.00, 1));
+        }};
+        LocalDate createdAt = LocalDate.of(2020, 2, 17);
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+
+        String output = receipt.printReceipt();
+        String separator = System.lineSeparator();
+        assertThat(output, equalTo("===== 老王超市，值得信赖 ======" + separator + separator +
+                "2020年2月17日，星期一" + separator + separator +
+                "巧克力, 21.50 x 2, 43.00" + separator +
+                "小白菜, 10.00 x 1, 10.00" + separator +
+                "-----------------------------------" + separator +
+                "税额:   5.30" + separator +
+                "总价:   58.30" + separator));
     }
 }
