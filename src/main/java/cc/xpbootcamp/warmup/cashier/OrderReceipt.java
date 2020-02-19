@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -34,20 +35,20 @@ public class OrderReceipt {
     }
 
     private String printHeader() {
-        return "===== 老王超市，值得信赖 ======\n";
+        return "===== 老王超市，值得信赖 ======" + System.lineSeparator();
     }
 
     private String printDateAndDayOfWeek() {
         LocalDate createdAt = order.getCreatedAt();
         String dateStr = createdAt.format(DateTimeFormatter.ofPattern("yyyy年M月dd日"));
         String dayOfWeek = createdAt.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.CHINA);
-        return dateStr + "，" + dayOfWeek;
+        return dateStr + "，" + dayOfWeek + System.lineSeparator();
     }
 
     private String printItems() {
         return order.getLineItems().stream()
                 .map(this::printLineItem)
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining(System.lineSeparator()));
     }
 
     private String printLineItem(LineItem item) {
@@ -57,7 +58,9 @@ public class OrderReceipt {
     }
 
     private String printSeparateLine() {
-        return "-----------------------------------";
+        return System.lineSeparator() +
+                "-----------------------------------" +
+                System.lineSeparator();
     }
 
     private String printTotalSalesTax() {
@@ -77,7 +80,8 @@ public class OrderReceipt {
                 .mapToDouble(LineItem::getTotalAmountIncludeTax)
                 .sum();
 
-        return String.format("折扣：%.2f\n", round2Scale(totalAmount * discountRate));
+        return String.format("折扣：%.2f", round2Scale(totalAmount * discountRate)) +
+                System.lineSeparator();
     }
 
     private String printTotalAmount() {
@@ -96,4 +100,5 @@ public class OrderReceipt {
     private double round2Scale(double number) {
         return (double) (Math.round(number * 100)) / 100;
     }
+
 }
