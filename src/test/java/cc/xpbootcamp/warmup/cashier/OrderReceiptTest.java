@@ -53,6 +53,18 @@ class OrderReceiptTest {
     }
 
     @Test
+    void should_print_separate_line() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.50, 2));
+        }};
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
+
+        String output = receipt.printReceipt();
+
+        assertThat(output, containsString("-----------------------------------"));
+    }
+
+    @Test
     public void shouldPrintLineItemAndSalesTaxInformation() {
         List<LineItem> lineItems = new ArrayList<LineItem>() {{
             add(new LineItem("milk", 10.0, 2));

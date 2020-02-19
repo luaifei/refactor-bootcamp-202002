@@ -26,6 +26,7 @@ public class OrderReceipt {
         return printHeader() +
                 printDateAndDayOfWeek() +
                 printItems() +
+                printSeparateLine() +
                 printTotalSalesTax() +
                 printTotalAmount();
     }
@@ -51,6 +52,10 @@ public class OrderReceipt {
         String itemFormatter = "%s, %.2f x %s, %.2f";
         return String.format(itemFormatter, item.getDescription(),
                 item.getPrice(), item.getQuantity(), item.getTotalAmountExcludeTax());
+    }
+
+    private String printSeparateLine() {
+        return "-----------------------------------";
     }
 
     private String printTotalSalesTax() {
