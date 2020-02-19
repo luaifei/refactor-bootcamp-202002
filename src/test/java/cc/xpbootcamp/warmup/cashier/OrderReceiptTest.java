@@ -2,11 +2,19 @@ package cc.xpbootcamp.warmup.cashier;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class OrderReceiptTest {
     @Test
@@ -17,6 +25,18 @@ class OrderReceiptTest {
         String output = receipt.printReceipt();
 
         assertThat(output, containsString("===== 老王超市，值得信赖 ======"));
+    }
+
+    @Test
+    void should_print_date_and_day_of_week() {
+        LocalDate createdAt = LocalDate.of(2020, 2, 17);
+
+        Order order = new Order(null, null, new ArrayList<>(), createdAt);
+        OrderReceipt receipt = new OrderReceipt(order);
+
+        String output = receipt.printReceipt();
+
+        assertThat(output, containsString("2020年2月17日，星期一"));
     }
 
     @Test
@@ -36,5 +56,4 @@ class OrderReceiptTest {
         assertThat(output, containsString("Sales Tax\t6.5"));
         assertThat(output, containsString("Total Amount\t71.5"));
     }
-
 }

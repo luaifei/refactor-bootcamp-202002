@@ -1,5 +1,13 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.text.DateFormat;
+import java.time.Clock;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -20,16 +28,21 @@ public class OrderReceipt {
 
         // print headers
         return printHeader() +
-                // prints lineItems
+                printDateAndDayOfWeek() +
                 printItems() +
-                // prints the state tax
                 printTotalSalesTax() +
-                // print total amount
                 printTotalAmount();
     }
 
     private String printHeader() {
         return "===== 老王超市，值得信赖 ======\n";
+    }
+
+    private String printDateAndDayOfWeek() {
+        LocalDate createdAt = order.getCreatedAt();
+        String dateStr = createdAt.format(DateTimeFormatter.ofPattern("yyyy年M月dd日"));
+        String dayOfWeek = createdAt.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.CHINA);
+        return dateStr + "，" + dayOfWeek;
     }
 
     private String printItems() {
