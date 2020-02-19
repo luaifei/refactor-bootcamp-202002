@@ -1,11 +1,7 @@
 package cc.xpbootcamp.warmup.cashier;
 
-import java.text.DateFormat;
-import java.time.Clock;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -48,14 +44,13 @@ public class OrderReceipt {
     private String printItems() {
         return order.getLineItems().stream()
                 .map(this::printLineItem)
-                .collect(Collectors.joining());
+                .collect(Collectors.joining("\n"));
     }
 
     private String printLineItem(LineItem item) {
-        return item.getDescription() + "\t" +
-                item.getPrice() + "\t" +
-                item.getQuantity() + "\t" +
-                item.getTotalAmountExcludeTax() + "\n";
+        String itemFormatter = "%s, %.2f x %s, %.2f";
+        return String.format(itemFormatter, item.getDescription(),
+                item.getPrice(), item.getQuantity(), item.getTotalAmountExcludeTax());
     }
 
     private String printTotalSalesTax() {

@@ -40,6 +40,19 @@ class OrderReceiptTest {
     }
 
     @Test
+    void should_print_line_item() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.50, 2));
+            add(new LineItem("小白菜", 10.00, 1));
+        }};
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
+
+        String output = receipt.printReceipt();
+        assertThat(output, containsString("巧克力, 21.50 x 2, 43.00\n"));
+        assertThat(output, containsString("小白菜, 10.00 x 1, 10.00"));
+    }
+
+    @Test
     public void shouldPrintLineItemAndSalesTaxInformation() {
         List<LineItem> lineItems = new ArrayList<LineItem>() {{
             add(new LineItem("milk", 10.0, 2));
