@@ -97,6 +97,32 @@ class OrderReceiptTest {
     }
 
     @Test
+    void should_print_total_amount_minus_discount_when_order_create_date_is_wednesday() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.50, 2));
+            add(new LineItem("小白菜", 10.00, 1));
+        }};
+        LocalDate createdAt = LocalDate.of(2020, 2, 19);
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+
+        String output = receipt.printReceipt();
+        assertThat(output, containsString("总价:   57.13"));
+    }
+
+    @Test
+    void should_print_total_amount_without_discount_when_order_create_date_is_not_wednesday() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.50, 2));
+            add(new LineItem("小白菜", 10.00, 1));
+        }};
+        LocalDate createdAt = LocalDate.of(2020, 2, 17);
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+
+        String output = receipt.printReceipt();
+        assertThat(output, containsString("总价:   58.30"));
+    }
+
+    @Test
     public void shouldPrintLineItemAndSalesTaxInformation() {
         List<LineItem> lineItems = new ArrayList<LineItem>() {{
             add(new LineItem("milk", 10.0, 2));

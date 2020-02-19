@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  */
 public class OrderReceipt {
     private Order order;
+    private double discountRate = 0.02;
 
     public OrderReceipt(Order order) {
         this.order = order;
@@ -76,14 +77,20 @@ public class OrderReceipt {
                 .mapToDouble(LineItem::getTotalAmountIncludeTax)
                 .sum();
 
-        return String.format("折扣：%.2f\n", round2Scale(totalAmount * 0.02));
+        return String.format("折扣：%.2f\n", round2Scale(totalAmount * discountRate));
     }
 
     private String printTotalAmount() {
         double totalAmount = this.order.getLineItems().stream()
                 .mapToDouble(LineItem::getTotalAmountIncludeTax)
                 .sum();
-        return "Total Amount\t" + totalAmount;
+        double discount = 0d;
+        LocalDate createdAt = order.getCreatedAt();
+        if (createdAt.getDayOfWeek() == DayOfWeek.WEDNESDAY) {
+            discount = totalAmount * discountRate;
+        }
+
+        return String.format("总价:   %.2f", round2Scale(totalAmount - discount));
     }
 
     private double round2Scale(double number) {
