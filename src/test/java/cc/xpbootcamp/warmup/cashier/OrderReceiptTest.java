@@ -2,19 +2,13 @@ package cc.xpbootcamp.warmup.cashier;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.Clock;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.not;
 
 class OrderReceiptTest {
     @Test
@@ -62,6 +56,44 @@ class OrderReceiptTest {
         String output = receipt.printReceipt();
 
         assertThat(output, containsString("-----------------------------------"));
+    }
+
+    @Test
+    void should_print_total_sales_tax() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.50, 2));
+            add(new LineItem("小白菜", 10.00, 1));
+        }};
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
+
+        String output = receipt.printReceipt();
+        assertThat(output, containsString("税额:   5.30"));
+    }
+
+    @Test
+    void should_print_discount_when_order_create_date_is_wednesday() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.50, 2));
+            add(new LineItem("小白菜", 10.00, 1));
+        }};
+        LocalDate createdAt = LocalDate.of(2020, 2, 19);
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+
+        String output = receipt.printReceipt();
+        assertThat(output, containsString("折扣：1.17"));
+    }
+
+    @Test
+    void should_not_print_discount_when_order_create_date_is_not_wednesday() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.50, 2));
+            add(new LineItem("小白菜", 10.00, 1));
+        }};
+        LocalDate createdAt = LocalDate.of(2020, 2, 17);
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+
+        String output = receipt.printReceipt();
+        assertThat(output, not(containsString("折扣：1.17")));
     }
 
     @Test

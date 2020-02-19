@@ -1,5 +1,6 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -22,12 +23,12 @@ public class OrderReceipt {
 
     public String printReceipt() {
 
-        // print headers
         return printHeader() +
                 printDateAndDayOfWeek() +
                 printItems() +
                 printSeparateLine() +
                 printTotalSalesTax() +
+                printDiscount() +
                 printTotalAmount();
     }
 
@@ -62,7 +63,20 @@ public class OrderReceipt {
         double totalSalesTax = this.order.getLineItems().stream()
                 .mapToDouble(LineItem::getTax)
                 .sum();
-        return "Sales Tax\t" + totalSalesTax;
+        return String.format("税额:   %.2f", totalSalesTax);
+    }
+
+    private String printDiscount() {
+        LocalDate createdAt = order.getCreatedAt();
+        if (createdAt.getDayOfWeek() != DayOfWeek.WEDNESDAY) {
+            return "";
+        }
+
+        double totalAmount = this.order.getLineItems().stream()
+                .mapToDouble(LineItem::getTotalAmountIncludeTax)
+                .sum();
+
+        return String.format("折扣：%.2f\n", round2Scale(totalAmount * 0.02));
     }
 
     private String printTotalAmount() {
@@ -70,5 +84,9 @@ public class OrderReceipt {
                 .mapToDouble(LineItem::getTotalAmountIncludeTax)
                 .sum();
         return "Total Amount\t" + totalAmount;
+    }
+
+    private double round2Scale(double number) {
+        return (double) (Math.round(number * 100)) / 100;
     }
 }
