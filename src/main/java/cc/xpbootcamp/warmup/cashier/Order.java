@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Order {
+    private static final double TAX_RATE = 0.1;
+
     private String customerName;
     private String address;
     private List<GoodsItem> goodsItemList;
@@ -38,7 +40,15 @@ public class Order {
 
     double getSubTotalExcludeTax() {
         return goodsItemList.stream()
-                .mapToDouble(GoodsItem::getTotalAmountIncludeTax)
+                .mapToDouble(GoodsItem::getTotalAmountExcludeTax)
                 .sum();
+    }
+
+    double getTotalSalesTax() {
+        return getSubTotalExcludeTax() * TAX_RATE;
+    }
+
+    double getSubTotalIncludeTax() {
+        return getSubTotalExcludeTax() + getTotalSalesTax();
     }
 }

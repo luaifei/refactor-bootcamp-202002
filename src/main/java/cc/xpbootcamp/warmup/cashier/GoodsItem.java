@@ -27,12 +27,4 @@ public class GoodsItem {
     double getTotalAmountExcludeTax() {
         return price * quantity;
     }
-
-    public double getTax() {
-		return this.getTotalAmountExcludeTax() * 0.10;
-	}
-
-	public double getTotalAmountIncludeTax() {
-		return this.getTotalAmountExcludeTax() + this.getTax();
-	}
 }

@@ -65,10 +65,7 @@ public class OrderReceipt {
     }
 
     private String printTotalSalesTax() {
-        double totalSalesTax = this.order.getGoodsItemList().stream()
-                .mapToDouble(GoodsItem::getTax)
-                .sum();
-        return String.format("税额:   %.2f", totalSalesTax) + insertLineSeparator(1);
+        return String.format("税额:   %.2f", order.getTotalSalesTax()) + insertLineSeparator(1);
     }
 
     private String printDiscount() {
@@ -77,14 +74,14 @@ public class OrderReceipt {
             return "";
         }
 
-        double totalAmount = order.getSubTotalExcludeTax();
+        double totalAmount = order.getSubTotalIncludeTax();
 
         return String.format("折扣：%.2f", round2Scale(totalAmount * discountRate)) +
                 insertLineSeparator(1);
     }
 
     private String printTotalAmount() {
-        double totalAmount = order.getSubTotalExcludeTax();
+        double totalAmount = order.getSubTotalIncludeTax();
         double discount = 0d;
         LocalDate createdAt = order.getCreatedAt();
         if (createdAt.getDayOfWeek() == DayOfWeek.WEDNESDAY) {
