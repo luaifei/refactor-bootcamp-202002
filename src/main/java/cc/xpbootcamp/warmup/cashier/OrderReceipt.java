@@ -15,6 +15,7 @@ public class OrderReceipt {
     private Order order;
 
     private static final String DATE_FORMATTER = "yyyy年M月dd日，EEEE\n\n";
+    private static final String SLOGAN = "===== 老王超市，值得信赖 ======\n\n";
 
     public OrderReceipt(Order order) {
         this.order = order;
@@ -23,23 +24,16 @@ public class OrderReceipt {
     public String printReceipt() {
 
         return printHeader() +
-                printDateAndDayOfWeek() +
-                printGoodsItemList() +
+                printBody() +
                 printSeparateLine() +
-                printTotalSalesTax() +
-                printDiscount() +
-                printTotalAmount();
+                printFooter();
     }
 
     private String printHeader() {
-        return "===== 老王超市，值得信赖 ======\n\n";
+        return SLOGAN + order.getCreatedAt().format(DateTimeFormatter.ofPattern(DATE_FORMATTER, Locale.CHINA));
     }
 
-    private String printDateAndDayOfWeek() {
-        return order.getCreatedAt().format(DateTimeFormatter.ofPattern(DATE_FORMATTER, Locale.CHINA));
-    }
-
-    private String printGoodsItemList() {
+    private String printBody() {
         return order.getGoodsItemList().stream()
                 .map(GoodsItem::formatGoodsItem)
                 .collect(Collectors.joining());
@@ -49,15 +43,12 @@ public class OrderReceipt {
         return "-----------------------------------\n";
     }
 
-    private String printTotalSalesTax() {
-        return String.format("税额:   %.2f\n", order.getTotalSalesTax());
-    }
-
-    private String printDiscount() {
-        return order.hasDiscount() ? String.format("折扣：%.2f\n", order.getDiscount()) : "";
-    }
-
-    private String printTotalAmount() {
-        return String.format("总价:   %.2f\n", order.getSubTotalIncludeTaxMinusDiscount());
+    private String printFooter() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(String.format("税额:   %.2f\n", order.getTotalSalesTax()));
+        String discountStr = order.hasDiscount() ? String.format("折扣：%.2f\n", order.getDiscount()) : "";
+        builder.append(discountStr);
+        builder.append(String.format("总价:   %.2f\n", order.getSubTotalIncludeTaxMinusDiscount()));
+        return builder.toString();
     }
 }

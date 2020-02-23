@@ -131,15 +131,17 @@ class OrderReceiptTest {
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
 
         String output = receipt.printReceipt();
+
         assertThat(output, equalTo("===== 老王超市，值得信赖 ======\n" +
                 "\n" +
-                "2020年2月17日，星期一\n" +
+                "2020年2月19日，星期三\n" +
                 "\n" +
                 "巧克力, 21.50 x 2, 43.00\n" +
                 "小白菜, 10.00 x 1, 10.00\n" +
                 "-----------------------------------\n" +
                 "税额:   5.30\n" +
-                "总价:   58.30\n"));
+                "折扣：1.17\n" +
+                "总价:   57.13\n"));
     }
 
     @Test
@@ -152,15 +154,15 @@ class OrderReceiptTest {
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
 
         String output = receipt.printReceipt();
+
         assertThat(output, equalTo("===== 老王超市，值得信赖 ======\n" +
                 "\n" +
-                "2020年2月19日，星期三\n" +
+                "2020年2月17日，星期一\n" +
                 "\n" +
                 "巧克力, 21.50 x 2, 43.00\n" +
                 "小白菜, 10.00 x 1, 10.00\n" +
                 "-----------------------------------\n" +
                 "税额:   5.30\n" +
-                "折扣：1.17\n" +
-                "总价:   57.13\n"));
+                "总价:   58.30\n"));
     }
 }
