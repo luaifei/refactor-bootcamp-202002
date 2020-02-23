@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class OrderReceipt {
     private Order order;
 
-    private static final String DATE_FORMATTER = "yyyy年M月dd日，EEEE";
+    private static final String DATE_FORMATTER = "yyyy年M月dd日，EEEE\n\n";
 
     public OrderReceipt(Order order) {
         this.order = order;
@@ -33,50 +33,38 @@ public class OrderReceipt {
     }
 
     private String printHeader() {
-        return "===== 老王超市，值得信赖 ======" + insertLineSeparator(2);
+        return "===== 老王超市，值得信赖 ======\n\n";
     }
 
     private String printDateAndDayOfWeek() {
-        return order.getCreatedAt()
-                .format(DateTimeFormatter.ofPattern(DATE_FORMATTER, Locale.CHINA))
-                + insertLineSeparator(2);
+        return order.getCreatedAt().format(DateTimeFormatter.ofPattern(DATE_FORMATTER, Locale.CHINA));
     }
 
     private String printGoodsItemList() {
         return order.getGoodsItemList().stream()
                 .map(this::printGoodsItem)
-                .collect(Collectors.joining(System.lineSeparator()));
+                .collect(Collectors.joining());
     }
 
     private String printGoodsItem(GoodsItem item) {
-        String itemFormatter = "%s, %.2f x %s, %.2f";
+        String itemFormatter = "%s, %.2f x %s, %.2f\n";
         return String.format(itemFormatter, item.getDescription(),
                 item.getPrice(), item.getQuantity(), item.getTotalAmountExcludeTax());
     }
 
     private String printSeparateLine() {
-        return insertLineSeparator(1) +
-                "-----------------------------------" +
-                insertLineSeparator(1);
+        return "-----------------------------------\n";
     }
 
     private String printTotalSalesTax() {
-        return String.format("税额:   %.2f", order.getTotalSalesTax()) + insertLineSeparator(1);
+        return String.format("税额:   %.2f\n", order.getTotalSalesTax());
     }
 
     private String printDiscount() {
-        return order.hasDiscount() ? String.format("折扣：%.2f", order.getDiscount())
-                + insertLineSeparator(1)
-                : "";
+        return order.hasDiscount() ? String.format("折扣：%.2f\n", order.getDiscount()) : "";
     }
 
     private String printTotalAmount() {
-        return String.format("总价:   %.2f", order.getSubTotalIncludeTaxMinusDiscount()) +
-                insertLineSeparator(1);
+        return String.format("总价:   %.2f\n", order.getSubTotalIncludeTaxMinusDiscount());
     }
-
-    private String insertLineSeparator(int times) {
-        return String.join("", Collections.nCopies(times, System.lineSeparator()));
-    }
-
 }
