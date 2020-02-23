@@ -65,18 +65,14 @@ public class OrderReceipt {
     }
 
     private String printDiscount() {
-        return order.hasDiscount() ? String.format("折扣：%.2f", round2Scale(order.getDiscount()))
+        return order.hasDiscount() ? String.format("折扣：%.2f", order.getDiscount())
                 + insertLineSeparator(1)
                 : "";
     }
 
     private String printTotalAmount() {
-        return String.format("总价:   %.2f", round2Scale(order.getSubTotalIncludeTaxMinusDiscount())) +
+        return String.format("总价:   %.2f", order.getSubTotalIncludeTaxMinusDiscount()) +
                 insertLineSeparator(1);
-    }
-
-    private double round2Scale(double number) {
-        return (double) (Math.round(number * 100)) / 100;
     }
 
     private String insertLineSeparator(int times) {
