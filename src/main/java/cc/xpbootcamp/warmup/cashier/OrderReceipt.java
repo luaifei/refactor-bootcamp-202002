@@ -46,7 +46,7 @@ public class OrderReceipt {
     }
 
     private String printGoodsItemList() {
-        return order.getLineItems().stream()
+        return order.getGoodsItemList().stream()
                 .map(this::printGoodsItem)
                 .collect(Collectors.joining(System.lineSeparator()));
     }
@@ -64,7 +64,7 @@ public class OrderReceipt {
     }
 
     private String printTotalSalesTax() {
-        double totalSalesTax = this.order.getLineItems().stream()
+        double totalSalesTax = this.order.getGoodsItemList().stream()
                 .mapToDouble(GoodsItem::getTax)
                 .sum();
         return String.format("税额:   %.2f", totalSalesTax) + insertLineSeparator(1);
@@ -76,7 +76,7 @@ public class OrderReceipt {
             return "";
         }
 
-        double totalAmount = this.order.getLineItems().stream()
+        double totalAmount = this.order.getGoodsItemList().stream()
                 .mapToDouble(GoodsItem::getTotalAmountIncludeTax)
                 .sum();
 
@@ -85,7 +85,7 @@ public class OrderReceipt {
     }
 
     private String printTotalAmount() {
-        double totalAmount = this.order.getLineItems().stream()
+        double totalAmount = this.order.getGoodsItemList().stream()
                 .mapToDouble(GoodsItem::getTotalAmountIncludeTax)
                 .sum();
         double discount = 0d;

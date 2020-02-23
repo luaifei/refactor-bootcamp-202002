@@ -32,7 +32,7 @@ public class Order {
         return address;
     }
 
-    public List<GoodsItem> getLineItems() {
+    public List<GoodsItem> getGoodsItemList() {
         return goodsItemList;
     }
 }
