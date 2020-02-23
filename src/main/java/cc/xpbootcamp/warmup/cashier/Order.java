@@ -23,23 +23,23 @@ public class Order {
         this(customerName, address, goodsItemList, LocalDate.now());
     }
 
-    BigDecimal getSubTotalExcludeTax() {
+    BigDecimal calculateSubTotalExcludeTax() {
         return goodsItemList.stream()
-                .map(GoodsItem::getSubTotalExcludeTax)
+                .map(GoodsItem::calculateSubTotalExcludeTax)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    BigDecimal getTotalSalesTax() {
-        return TAX_RATE.multiply(getSubTotalExcludeTax());
+    BigDecimal calculateTotalSalesTax() {
+        return TAX_RATE.multiply(calculateSubTotalExcludeTax());
     }
 
-    BigDecimal getSubTotalIncludeTax() {
-        return getSubTotalExcludeTax().add(getTotalSalesTax());
+    BigDecimal calculateSubTotalIncludeTax() {
+        return calculateSubTotalExcludeTax().add(calculateTotalSalesTax());
     }
 
-    BigDecimal getDiscount() {
+    BigDecimal calculateDiscount() {
         if (hasDiscount()) {
-            return DISCOUNT_RATE.multiply(getSubTotalIncludeTax());
+            return DISCOUNT_RATE.multiply(calculateSubTotalIncludeTax());
         }
 
         return BigDecimal.ZERO;
@@ -49,7 +49,7 @@ public class Order {
         return createdAt.getDayOfWeek() == DayOfWeek.WEDNESDAY;
     }
 
-    BigDecimal getSubTotalIncludeTaxMinusDiscount() {
-        return getSubTotalIncludeTax().subtract(getDiscount());
+    BigDecimal calculateSubTotalIncludeTaxMinusDiscount() {
+        return calculateSubTotalIncludeTax().subtract(calculateDiscount());
     }
 }

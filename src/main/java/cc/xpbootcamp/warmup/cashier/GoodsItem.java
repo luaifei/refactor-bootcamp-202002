@@ -14,11 +14,11 @@ public class GoodsItem {
 	private BigDecimal price;
 	private int quantity;
 
-    BigDecimal getSubTotalExcludeTax() {
+    BigDecimal calculateSubTotalExcludeTax() {
         return price.multiply(BigDecimal.valueOf(quantity));
     }
 
     String formatGoodsItem() {
-		return String.format(FORMATTER, description, price, quantity, getSubTotalExcludeTax());
+		return String.format(FORMATTER, description, price, quantity, calculateSubTotalExcludeTax());
 	}
 }

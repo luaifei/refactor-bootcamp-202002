@@ -27,28 +27,28 @@ public class OrderReceipt {
 
     public String printReceipt() {
 
-        return printHeader() +
-                printBody() +
+        return getHeader() +
+                getBody() +
                 SEPARATE_LINE +
-                printFooter();
+                getFooter();
     }
 
-    private String printHeader() {
+    private String getHeader() {
         return SLOGAN + order.getCreatedAt().format(DateTimeFormatter.ofPattern(DATE_FORMATTER, Locale.CHINA));
     }
 
-    private String printBody() {
+    private String getBody() {
         return order.getGoodsItemList().stream()
                 .map(GoodsItem::formatGoodsItem)
                 .collect(Collectors.joining());
     }
 
-    private String printFooter() {
+    private String getFooter() {
         StringBuilder builder = new StringBuilder();
-        builder.append(String.format(TAX_FORMATTER, order.getTotalSalesTax()));
-        String discountStr = order.hasDiscount() ? String.format(DISCOUNT_FORMATTER, order.getDiscount()) : "";
+        builder.append(String.format(TAX_FORMATTER, order.calculateTotalSalesTax()));
+        String discountStr = order.hasDiscount() ? String.format(DISCOUNT_FORMATTER, order.calculateDiscount()) : "";
         builder.append(discountStr);
-        builder.append(String.format(SUBTOTAL_FORMATTER, order.getSubTotalIncludeTaxMinusDiscount()));
+        builder.append(String.format(SUBTOTAL_FORMATTER, order.calculateSubTotalIncludeTaxMinusDiscount()));
         return builder.toString();
     }
 }
