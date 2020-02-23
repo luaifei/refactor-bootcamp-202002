@@ -1,16 +1,18 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.math.BigDecimal;
+
 public class GoodsItem {
 	private static final String FORMATTER = "%s, %.2f x %s, %.2f\n";
 
 	private String description;
-	private double price;
+	private BigDecimal price;
 	private int quantity;
 
 	public GoodsItem(String description, double price, int quantity) {
 		super();
 		this.description = description;
-		this.price = price;
+		this.price = BigDecimal.valueOf(price);
 		this.quantity = quantity;
 	}
 
@@ -18,7 +20,7 @@ public class GoodsItem {
 		return description;
 	}
 
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
@@ -26,8 +28,8 @@ public class GoodsItem {
 		return quantity;
 	}
 
-    double getSubTotalExcludeTax() {
-        return price * quantity;
+    BigDecimal getSubTotalExcludeTax() {
+        return price.multiply(BigDecimal.valueOf(quantity));
     }
 
     String formatGoodsItem() {

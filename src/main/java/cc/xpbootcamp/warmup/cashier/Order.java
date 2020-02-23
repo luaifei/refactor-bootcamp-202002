@@ -1,12 +1,13 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
 public class Order {
-    private static final double TAX_RATE = 0.1;
-    private static final double DISCOUNT_RATE = 0.02;
+    private static final BigDecimal TAX_RATE = BigDecimal.valueOf(0.1);
+    private static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.02);
 
     private String customerName;
     private String address;
@@ -40,29 +41,33 @@ public class Order {
         return goodsItemList;
     }
 
-    double getSubTotalExcludeTax() {
+    BigDecimal getSubTotalExcludeTax() {
         return goodsItemList.stream()
-                .mapToDouble(GoodsItem::getSubTotalExcludeTax)
-                .sum();
+                .map(GoodsItem::getSubTotalExcludeTax)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    double getTotalSalesTax() {
-        return getSubTotalExcludeTax() * TAX_RATE;
+    BigDecimal getTotalSalesTax() {
+        return TAX_RATE.multiply(getSubTotalExcludeTax());
     }
 
-    double getSubTotalIncludeTax() {
-        return getSubTotalExcludeTax() + getTotalSalesTax();
+    BigDecimal getSubTotalIncludeTax() {
+        return getSubTotalExcludeTax().add(getTotalSalesTax());
     }
 
-    double getDiscount() {
-        return hasDiscount() ? getSubTotalIncludeTax() * DISCOUNT_RATE : 0.0d;
+    BigDecimal getDiscount() {
+        if (hasDiscount()) {
+            return DISCOUNT_RATE.multiply(getSubTotalIncludeTax());
+        }
+
+        return BigDecimal.ZERO;
     }
 
     boolean hasDiscount() {
         return createdAt.getDayOfWeek() == DayOfWeek.WEDNESDAY;
     }
 
-    double getSubTotalIncludeTaxMinusDiscount() {
-        return getSubTotalIncludeTax() - getDiscount();
+    BigDecimal getSubTotalIncludeTaxMinusDiscount() {
+        return getSubTotalIncludeTax().subtract(getDiscount());
     }
 }
