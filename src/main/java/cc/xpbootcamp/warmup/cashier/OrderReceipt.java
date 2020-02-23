@@ -1,5 +1,7 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import lombok.AllArgsConstructor;
+
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -11,9 +13,8 @@ import java.util.stream.Collectors;
  * total sales tax) and prints it.
  *
  */
+@AllArgsConstructor
 public class OrderReceipt {
-    private Order order;
-
     private static final String DATE_FORMATTER = "yyyy年M月dd日，EEEE\n\n";
     private static final String SLOGAN = "===== 老王超市，值得信赖 ======\n\n";
     private static final String SEPARATE_LINE = "-----------------------------------\n";
@@ -21,12 +22,9 @@ public class OrderReceipt {
     private static final String DISCOUNT_FORMATTER = "折扣：%.2f\n";
     private static final String SUBTOTAL_FORMATTER = "总价:   %.2f\n";
 
-    public OrderReceipt(Order order) {
-        this.order = order;
-    }
+    private Order order;
 
     public String printReceipt() {
-
         return getHeader() +
                 getBody() +
                 SEPARATE_LINE +

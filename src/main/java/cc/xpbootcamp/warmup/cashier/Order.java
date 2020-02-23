@@ -19,10 +19,6 @@ public class Order {
     private List<GoodsItem> goodsItemList;
     private LocalDate createdAt;
 
-    public Order(String customerName, String address, List<GoodsItem> goodsItemList) {
-        this(customerName, address, goodsItemList, LocalDate.now());
-    }
-
     BigDecimal calculateSubTotalExcludeTax() {
         return goodsItemList.stream()
                 .map(GoodsItem::calculateSubTotalExcludeTax)
