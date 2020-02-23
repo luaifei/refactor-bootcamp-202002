@@ -16,6 +16,10 @@ public class OrderReceipt {
 
     private static final String DATE_FORMATTER = "yyyy年M月dd日，EEEE\n\n";
     private static final String SLOGAN = "===== 老王超市，值得信赖 ======\n\n";
+    private static final String SEPARATE_LINE = "-----------------------------------\n";
+    private static final String TAX_FORMATTER = "税额:   %.2f\n";
+    private static final String DISCOUNT_FORMATTER = "折扣：%.2f\n";
+    private static final String SUBTOTAL_FORMATTER = "总价:   %.2f\n";
 
     public OrderReceipt(Order order) {
         this.order = order;
@@ -25,7 +29,7 @@ public class OrderReceipt {
 
         return printHeader() +
                 printBody() +
-                printSeparateLine() +
+                SEPARATE_LINE +
                 printFooter();
     }
 
@@ -39,16 +43,12 @@ public class OrderReceipt {
                 .collect(Collectors.joining());
     }
 
-    private String printSeparateLine() {
-        return "-----------------------------------\n";
-    }
-
     private String printFooter() {
         StringBuilder builder = new StringBuilder();
-        builder.append(String.format("税额:   %.2f\n", order.getTotalSalesTax()));
-        String discountStr = order.hasDiscount() ? String.format("折扣：%.2f\n", order.getDiscount()) : "";
+        builder.append(String.format(TAX_FORMATTER, order.getTotalSalesTax()));
+        String discountStr = order.hasDiscount() ? String.format(DISCOUNT_FORMATTER, order.getDiscount()) : "";
         builder.append(discountStr);
-        builder.append(String.format("总价:   %.2f\n", order.getSubTotalIncludeTaxMinusDiscount()));
+        builder.append(String.format(SUBTOTAL_FORMATTER, order.getSubTotalIncludeTaxMinusDiscount()));
         return builder.toString();
     }
 }
