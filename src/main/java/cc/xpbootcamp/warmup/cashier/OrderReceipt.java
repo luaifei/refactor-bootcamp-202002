@@ -1,9 +1,6 @@
 package cc.xpbootcamp.warmup.cashier;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -17,7 +14,6 @@ import java.util.stream.Collectors;
  */
 public class OrderReceipt {
     private Order order;
-    private double discountRate = 0.02;
 
     private static final String DATE_FORMATTER = "yyyy年M月dd日，EEEE";
 
@@ -69,26 +65,13 @@ public class OrderReceipt {
     }
 
     private String printDiscount() {
-        LocalDate createdAt = order.getCreatedAt();
-        if (createdAt.getDayOfWeek() != DayOfWeek.WEDNESDAY) {
-            return "";
-        }
-
-        double totalAmount = order.getSubTotalIncludeTax();
-
-        return String.format("折扣：%.2f", round2Scale(totalAmount * discountRate)) +
-                insertLineSeparator(1);
+        return order.hasDiscount() ? String.format("折扣：%.2f", round2Scale(order.getDiscount()))
+                + insertLineSeparator(1)
+                : "";
     }
 
     private String printTotalAmount() {
-        double totalAmount = order.getSubTotalIncludeTax();
-        double discount = 0d;
-        LocalDate createdAt = order.getCreatedAt();
-        if (createdAt.getDayOfWeek() == DayOfWeek.WEDNESDAY) {
-            discount = totalAmount * discountRate;
-        }
-
-        return String.format("总价:   %.2f", round2Scale(totalAmount - discount)) +
+        return String.format("总价:   %.2f", round2Scale(order.getSubTotalIncludeTaxMinusDiscount())) +
                 insertLineSeparator(1);
     }
 
