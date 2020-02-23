@@ -4,18 +4,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Order {
-    private String cName;
-    private String addr;
+    private String customerName;
+    private String address;
     private List<LineItem> lineItemList;
     private LocalDate createdAt;
 
-    public Order(String cName, String addr, List<LineItem> lineItemList) {
-        this(cName, addr, lineItemList, LocalDate.now());
+    public Order(String customerName, String address, List<LineItem> lineItemList) {
+        this(customerName, address, lineItemList, LocalDate.now());
     }
 
-    public Order(String cName, String addr, List<LineItem> lineItemList, LocalDate createdAt) {
-        this.cName = cName;
-        this.addr = addr;
+    public Order(String customerName, String address, List<LineItem> lineItemList, LocalDate createdAt) {
+        this.customerName = customerName;
+        this.address = address;
         this.lineItemList = lineItemList;
         this.createdAt = createdAt;
     }
@@ -25,11 +25,11 @@ public class Order {
     }
 
     public String getCustomerName() {
-        return cName;
+        return customerName;
     }
 
     public String getCustomerAddress() {
-        return addr;
+        return address;
     }
 
     public List<LineItem> getLineItems() {
