@@ -77,18 +77,14 @@ public class OrderReceipt {
             return "";
         }
 
-        double totalAmount = this.order.getGoodsItemList().stream()
-                .mapToDouble(GoodsItem::getTotalAmountIncludeTax)
-                .sum();
+        double totalAmount = order.getSubTotalExcludeTax();
 
         return String.format("折扣：%.2f", round2Scale(totalAmount * discountRate)) +
                 insertLineSeparator(1);
     }
 
     private String printTotalAmount() {
-        double totalAmount = this.order.getGoodsItemList().stream()
-                .mapToDouble(GoodsItem::getTotalAmountIncludeTax)
-                .sum();
+        double totalAmount = order.getSubTotalExcludeTax();
         double discount = 0d;
         LocalDate createdAt = order.getCreatedAt();
         if (createdAt.getDayOfWeek() == DayOfWeek.WEDNESDAY) {

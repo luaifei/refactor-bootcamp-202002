@@ -35,4 +35,10 @@ public class Order {
     public List<GoodsItem> getGoodsItemList() {
         return goodsItemList;
     }
+
+    double getSubTotalExcludeTax() {
+        return goodsItemList.stream()
+                .mapToDouble(GoodsItem::getTotalAmountIncludeTax)
+                .sum();
+    }
 }
