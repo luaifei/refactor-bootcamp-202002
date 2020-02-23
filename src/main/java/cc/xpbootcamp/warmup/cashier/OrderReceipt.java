@@ -19,6 +19,8 @@ public class OrderReceipt {
     private Order order;
     private double discountRate = 0.02;
 
+    private static final String DATE_FORMATTER = "yyyy年M月dd日，EEEE";
+
     public OrderReceipt(Order order) {
         this.order = order;
     }
@@ -39,10 +41,9 @@ public class OrderReceipt {
     }
 
     private String printDateAndDayOfWeek() {
-        LocalDate createdAt = order.getCreatedAt();
-        String dateStr = createdAt.format(DateTimeFormatter.ofPattern("yyyy年M月dd日"));
-        String dayOfWeek = createdAt.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.CHINA);
-        return dateStr + "，" + dayOfWeek + insertLineSeparator(2);
+        return order.getCreatedAt()
+                .format(DateTimeFormatter.ofPattern(DATE_FORMATTER, Locale.CHINA))
+                + insertLineSeparator(2);
     }
 
     private String printGoodsItemList() {
