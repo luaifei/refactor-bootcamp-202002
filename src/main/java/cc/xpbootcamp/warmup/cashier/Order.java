@@ -42,7 +42,7 @@ public class Order {
 
     double getSubTotalExcludeTax() {
         return goodsItemList.stream()
-                .mapToDouble(GoodsItem::getTotalAmountExcludeTax)
+                .mapToDouble(GoodsItem::getSubTotalExcludeTax)
                 .sum();
     }
 

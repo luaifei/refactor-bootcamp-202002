@@ -1,7 +1,6 @@
 package cc.xpbootcamp.warmup.cashier;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -42,14 +41,8 @@ public class OrderReceipt {
 
     private String printGoodsItemList() {
         return order.getGoodsItemList().stream()
-                .map(this::printGoodsItem)
+                .map(GoodsItem::formatGoodsItem)
                 .collect(Collectors.joining());
-    }
-
-    private String printGoodsItem(GoodsItem item) {
-        String itemFormatter = "%s, %.2f x %s, %.2f\n";
-        return String.format(itemFormatter, item.getDescription(),
-                item.getPrice(), item.getQuantity(), item.getTotalAmountExcludeTax());
     }
 
     private String printSeparateLine() {

@@ -1,6 +1,8 @@
 package cc.xpbootcamp.warmup.cashier;
 
 public class GoodsItem {
+	private static final String FORMATTER = "%s, %.2f x %s, %.2f\n";
+
 	private String description;
 	private double price;
 	private int quantity;
@@ -24,7 +26,11 @@ public class GoodsItem {
 		return quantity;
 	}
 
-    double getTotalAmountExcludeTax() {
+    double getSubTotalExcludeTax() {
         return price * quantity;
     }
+
+    String formatGoodsItem() {
+		return String.format(FORMATTER, description, price, quantity, getSubTotalExcludeTax());
+	}
 }
