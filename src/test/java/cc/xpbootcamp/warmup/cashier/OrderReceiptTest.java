@@ -2,6 +2,7 @@ package cc.xpbootcamp.warmup.cashier;
 
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,8 @@ class OrderReceiptTest {
     @Test
     void should_print_line_item() {
         List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
-            add(new GoodsItem("巧克力", 21.50, 2));
-            add(new GoodsItem("小白菜", 10.00, 1));
+            add(new GoodsItem("巧克力", BigDecimal.valueOf(21.50), 2));
+            add(new GoodsItem("小白菜", BigDecimal.valueOf(10.00), 1));
         }};
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems));
 
@@ -48,7 +49,8 @@ class OrderReceiptTest {
     @Test
     void should_print_separate_line() {
         List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
-            add(new GoodsItem("巧克力", 21.50, 2));
+            add(new GoodsItem("巧克力", BigDecimal.valueOf(21.50), 2));
+            add(new GoodsItem("小白菜", BigDecimal.valueOf(10.00), 1));
         }};
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems));
 
@@ -60,8 +62,8 @@ class OrderReceiptTest {
     @Test
     void should_print_total_sales_tax() {
         List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
-            add(new GoodsItem("巧克力", 21.50, 2));
-            add(new GoodsItem("小白菜", 10.00, 1));
+            add(new GoodsItem("巧克力", BigDecimal.valueOf(21.50), 2));
+            add(new GoodsItem("小白菜", BigDecimal.valueOf(10.00), 1));
         }};
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems));
 
@@ -72,8 +74,8 @@ class OrderReceiptTest {
     @Test
     void should_print_discount_when_order_create_date_is_wednesday() {
         List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
-            add(new GoodsItem("巧克力", 21.50, 2));
-            add(new GoodsItem("小白菜", 10.00, 1));
+            add(new GoodsItem("巧克力", BigDecimal.valueOf(21.50), 2));
+            add(new GoodsItem("小白菜", BigDecimal.valueOf(10.00), 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 19);
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
@@ -85,8 +87,8 @@ class OrderReceiptTest {
     @Test
     void should_not_print_discount_when_order_create_date_is_not_wednesday() {
         List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
-            add(new GoodsItem("巧克力", 21.50, 2));
-            add(new GoodsItem("小白菜", 10.00, 1));
+            add(new GoodsItem("巧克力", BigDecimal.valueOf(21.50), 2));
+            add(new GoodsItem("小白菜", BigDecimal.valueOf(10.00), 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 17);
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
@@ -98,8 +100,8 @@ class OrderReceiptTest {
     @Test
     void should_print_total_amount_minus_discount_when_order_create_date_is_wednesday() {
         List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
-            add(new GoodsItem("巧克力", 21.50, 2));
-            add(new GoodsItem("小白菜", 10.00, 1));
+            add(new GoodsItem("巧克力", BigDecimal.valueOf(21.50), 2));
+            add(new GoodsItem("小白菜", BigDecimal.valueOf(10.00), 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 19);
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
@@ -111,8 +113,8 @@ class OrderReceiptTest {
     @Test
     void should_print_total_amount_without_discount_when_order_create_date_is_not_wednesday() {
         List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
-            add(new GoodsItem("巧克力", 21.50, 2));
-            add(new GoodsItem("小白菜", 10.00, 1));
+            add(new GoodsItem("巧克力", BigDecimal.valueOf(21.50), 2));
+            add(new GoodsItem("小白菜", BigDecimal.valueOf(10.00), 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 17);
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
@@ -124,8 +126,8 @@ class OrderReceiptTest {
     @Test
     void should_print_receipt_with_except_formatter_when_order_create_date_is_wednesday() {
         List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
-            add(new GoodsItem("巧克力", 21.50, 2));
-            add(new GoodsItem("小白菜", 10.00, 1));
+            add(new GoodsItem("巧克力", BigDecimal.valueOf(21.50), 2));
+            add(new GoodsItem("小白菜", BigDecimal.valueOf(10.00), 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 19);
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
@@ -147,8 +149,8 @@ class OrderReceiptTest {
     @Test
     void should_print_receipt_with_except_formatter_when_order_create_date_is_not_wednesday() {
         List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
-            add(new GoodsItem("巧克力", 21.50, 2));
-            add(new GoodsItem("小白菜", 10.00, 1));
+            add(new GoodsItem("巧克力", BigDecimal.valueOf(21.50), 2));
+            add(new GoodsItem("小白菜", BigDecimal.valueOf(10.00), 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 17);
         OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));

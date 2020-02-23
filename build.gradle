@@ -50,4 +50,7 @@ dependencies {
     testCompile libs.junit5
     testCompile 'org.assertj:assertj-core:3.10.0'
     testCompile 'org.hamcrest:hamcrest-core:2.1'
+
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
 }

@@ -1,10 +1,15 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@AllArgsConstructor
 public class Order {
     private static final BigDecimal TAX_RATE = BigDecimal.valueOf(0.1);
     private static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.02);
@@ -16,29 +21,6 @@ public class Order {
 
     public Order(String customerName, String address, List<GoodsItem> goodsItemList) {
         this(customerName, address, goodsItemList, LocalDate.now());
-    }
-
-    public Order(String customerName, String address, List<GoodsItem> goodsItemList, LocalDate createdAt) {
-        this.customerName = customerName;
-        this.address = address;
-        this.goodsItemList = goodsItemList;
-        this.createdAt = createdAt;
-    }
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public String getCustomerAddress() {
-        return address;
-    }
-
-    public List<GoodsItem> getGoodsItemList() {
-        return goodsItemList;
     }
 
     BigDecimal getSubTotalExcludeTax() {
