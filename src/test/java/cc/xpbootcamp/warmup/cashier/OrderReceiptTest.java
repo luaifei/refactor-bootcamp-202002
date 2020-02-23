@@ -34,11 +34,11 @@ class OrderReceiptTest {
 
     @Test
     void should_print_line_item() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
+            add(new GoodsItem("巧克力", 21.50, 2));
+            add(new GoodsItem("小白菜", 10.00, 1));
         }};
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems));
 
         String output = receipt.printReceipt();
         assertThat(output, containsString("巧克力, 21.50 x 2, 43.00\n"));
@@ -47,10 +47,10 @@ class OrderReceiptTest {
 
     @Test
     void should_print_separate_line() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
+        List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
+            add(new GoodsItem("巧克力", 21.50, 2));
         }};
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems));
 
         String output = receipt.printReceipt();
 
@@ -59,11 +59,11 @@ class OrderReceiptTest {
 
     @Test
     void should_print_total_sales_tax() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
+            add(new GoodsItem("巧克力", 21.50, 2));
+            add(new GoodsItem("小白菜", 10.00, 1));
         }};
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems));
 
         String output = receipt.printReceipt();
         assertThat(output, containsString("税额:   5.30"));
@@ -71,12 +71,12 @@ class OrderReceiptTest {
 
     @Test
     void should_print_discount_when_order_create_date_is_wednesday() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
+            add(new GoodsItem("巧克力", 21.50, 2));
+            add(new GoodsItem("小白菜", 10.00, 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 19);
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
 
         String output = receipt.printReceipt();
         assertThat(output, containsString("折扣：1.17"));
@@ -84,12 +84,12 @@ class OrderReceiptTest {
 
     @Test
     void should_not_print_discount_when_order_create_date_is_not_wednesday() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
+            add(new GoodsItem("巧克力", 21.50, 2));
+            add(new GoodsItem("小白菜", 10.00, 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 17);
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
 
         String output = receipt.printReceipt();
         assertThat(output, not(containsString("折扣：1.17")));
@@ -97,12 +97,12 @@ class OrderReceiptTest {
 
     @Test
     void should_print_total_amount_minus_discount_when_order_create_date_is_wednesday() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
+            add(new GoodsItem("巧克力", 21.50, 2));
+            add(new GoodsItem("小白菜", 10.00, 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 19);
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
 
         String output = receipt.printReceipt();
         assertThat(output, containsString("总价:   57.13"));
@@ -110,12 +110,12 @@ class OrderReceiptTest {
 
     @Test
     void should_print_total_amount_without_discount_when_order_create_date_is_not_wednesday() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
+            add(new GoodsItem("巧克力", 21.50, 2));
+            add(new GoodsItem("小白菜", 10.00, 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 17);
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
 
         String output = receipt.printReceipt();
         assertThat(output, containsString("总价:   58.30"));
@@ -123,12 +123,12 @@ class OrderReceiptTest {
 
     @Test
     void should_print_receipt_with_except_formatter_when_order_create_date_is_wednesday() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
+            add(new GoodsItem("巧克力", 21.50, 2));
+            add(new GoodsItem("小白菜", 10.00, 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 19);
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
 
         String output = receipt.printReceipt();
         String separator = System.lineSeparator();
@@ -144,12 +144,12 @@ class OrderReceiptTest {
 
     @Test
     void should_print_receipt_with_except_formatter_when_order_create_date_is_not_wednesday() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<GoodsItem> goodsItems = new ArrayList<GoodsItem>() {{
+            add(new GoodsItem("巧克力", 21.50, 2));
+            add(new GoodsItem("小白菜", 10.00, 1));
         }};
         LocalDate createdAt = LocalDate.of(2020, 2, 17);
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, createdAt));
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, goodsItems, createdAt));
 
         String output = receipt.printReceipt();
         String separator = System.lineSeparator();

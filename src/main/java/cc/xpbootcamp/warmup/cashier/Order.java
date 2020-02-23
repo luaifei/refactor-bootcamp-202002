@@ -6,17 +6,17 @@ import java.util.List;
 public class Order {
     private String customerName;
     private String address;
-    private List<LineItem> lineItemList;
+    private List<GoodsItem> goodsItemList;
     private LocalDate createdAt;
 
-    public Order(String customerName, String address, List<LineItem> lineItemList) {
-        this(customerName, address, lineItemList, LocalDate.now());
+    public Order(String customerName, String address, List<GoodsItem> goodsItemList) {
+        this(customerName, address, goodsItemList, LocalDate.now());
     }
 
-    public Order(String customerName, String address, List<LineItem> lineItemList, LocalDate createdAt) {
+    public Order(String customerName, String address, List<GoodsItem> goodsItemList, LocalDate createdAt) {
         this.customerName = customerName;
         this.address = address;
-        this.lineItemList = lineItemList;
+        this.goodsItemList = goodsItemList;
         this.createdAt = createdAt;
     }
 
@@ -32,7 +32,7 @@ public class Order {
         return address;
     }
 
-    public List<LineItem> getLineItems() {
-        return lineItemList;
+    public List<GoodsItem> getLineItems() {
+        return goodsItemList;
     }
 }

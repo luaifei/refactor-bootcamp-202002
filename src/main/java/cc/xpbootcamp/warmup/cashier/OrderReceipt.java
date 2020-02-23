@@ -27,7 +27,7 @@ public class OrderReceipt {
 
         return printHeader() +
                 printDateAndDayOfWeek() +
-                printItems() +
+                printGoodsItemList() +
                 printSeparateLine() +
                 printTotalSalesTax() +
                 printDiscount() +
@@ -45,13 +45,13 @@ public class OrderReceipt {
         return dateStr + "，" + dayOfWeek + insertLineSeparator(2);
     }
 
-    private String printItems() {
+    private String printGoodsItemList() {
         return order.getLineItems().stream()
-                .map(this::printLineItem)
+                .map(this::printGoodsItem)
                 .collect(Collectors.joining(System.lineSeparator()));
     }
 
-    private String printLineItem(LineItem item) {
+    private String printGoodsItem(GoodsItem item) {
         String itemFormatter = "%s, %.2f x %s, %.2f";
         return String.format(itemFormatter, item.getDescription(),
                 item.getPrice(), item.getQuantity(), item.getTotalAmountExcludeTax());
@@ -65,7 +65,7 @@ public class OrderReceipt {
 
     private String printTotalSalesTax() {
         double totalSalesTax = this.order.getLineItems().stream()
-                .mapToDouble(LineItem::getTax)
+                .mapToDouble(GoodsItem::getTax)
                 .sum();
         return String.format("税额:   %.2f", totalSalesTax) + insertLineSeparator(1);
     }
@@ -77,7 +77,7 @@ public class OrderReceipt {
         }
 
         double totalAmount = this.order.getLineItems().stream()
-                .mapToDouble(LineItem::getTotalAmountIncludeTax)
+                .mapToDouble(GoodsItem::getTotalAmountIncludeTax)
                 .sum();
 
         return String.format("折扣：%.2f", round2Scale(totalAmount * discountRate)) +
@@ -86,7 +86,7 @@ public class OrderReceipt {
 
     private String printTotalAmount() {
         double totalAmount = this.order.getLineItems().stream()
-                .mapToDouble(LineItem::getTotalAmountIncludeTax)
+                .mapToDouble(GoodsItem::getTotalAmountIncludeTax)
                 .sum();
         double discount = 0d;
         LocalDate createdAt = order.getCreatedAt();
